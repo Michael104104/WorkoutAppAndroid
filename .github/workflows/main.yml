@@ -16,22 +16,22 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: false
+        cache: 'npm'
+        cache-dependency-path: 'project/package-lock.json'
     
     - name: Install dependencies
       run: |
         cd project
-        npm install --legacy-peer-deps
+        npm ci
     
     - name: Setup Expo CLI
       run: |
         npm install -g @expo/cli
         npm install -g eas-cli
     
-    - name: Create Expo account and build
+    - name: Build APK
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       run: |
         cd project
-        expo login -u $EXPO_TOKEN
-        eas build --platform android --non-interactive --wait
+        eas build --platform android --non-interactive
