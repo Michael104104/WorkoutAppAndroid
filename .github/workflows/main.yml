@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'
     
     - name: Setup Expo
       uses: expo/expo-github-action@v8
@@ -25,8 +24,11 @@ jobs:
         token: ${{ secrets.EXPO_TOKEN }}
     
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd project
+        npm install
     
     - name: Build APK
       run: |
+        cd project
         npx eas build --platform android --non-interactive
